@@ -1,4 +1,4 @@
-// compiler parametr: g++ -O4 name.cpp -lgmpxx -lgmp -pthread -std=c++11
+// compiler parameter: g++ -O4 name.cpp -lgmpxx -lgmp -pthread -std=c++11
 #include <math.h>
 #include <iostream>
 #include <ctime>
