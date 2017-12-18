@@ -14,7 +14,7 @@
 
 using namespace std;
 
-void write_file(string str){
+void write_file(const string &str){
   FILE *f;
   string a;
   f = fopen("1.txt","w");
@@ -31,11 +31,11 @@ int time_time(){
 
 void naiti_prostie_menshe(vector <mpz_class> &prostie, unsigned long long int n){
        vector <unsigned char> vsen(n+1);
-       int i = 0;
+       unsigned long int i = 0;
        // 1 = False
        // 0 = True
-       int koren = sqrt(float(n));
-       int p = 2;
+       unsigned int koren = sqrt(float(n));
+       unsigned long int p = 2;
        while(p <= koren){
                prostie.push_back(p);
                for (i=p; i < (n+1); i += p){
@@ -56,7 +56,7 @@ void naiti_prostie_menshe(vector <mpz_class> &prostie, unsigned long long int n)
 }
 
 
-vector <mpz_class> slice(vector<mpz_class>& v, unsigned int start = 0, unsigned int end = -1) {
+vector <mpz_class> slice(vector<mpz_class>& v, unsigned int start = 0, int end = -1) {
     int oldlen = v.size();
     int newlen;
     if (end == -1 or end >= oldlen){
@@ -101,8 +101,8 @@ mpz_class poizvedenie(vector <mpz_class> &chisla, int razmer_grupi = 2){
   int kolichestvo_group = chisla.size() / razmer_grupi;
   if (kolichestvo_group == 0){
     kolichestvo_group = 1;
-  } else if(kolichestvo_group > 4096){
-    kolichestvo_group = 4096;
+  } else if(kolichestvo_group > 8096){
+    kolichestvo_group = 8096;
   }
   group(chisla, grupi, kolichestvo_group);
 
@@ -160,7 +160,6 @@ mpz_class glav(unsigned long long dokuda){
               }
       }
       //std::cout << prostie.size() << '\n';
-      sort(prostie.begin(), prostie.end());
       std::cout << "zakinchili dobavlyati list" << '\n';
       std::cout << "Umnozhaem" << '\n';
       return poizvedenie(prostie);
@@ -171,7 +170,7 @@ int main (){
         // numbers from 1 to 10 without any remainder.
         // What is the smallest positive number that is evenly divisible
         // by all of the numbers from 1 to n?
-        int n = 10;
+        int n = 100000000;
         int start_time = time_time();
         write_file(glav(n).get_str());
         //std::cout << glav(100) << '\n';

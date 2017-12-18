@@ -7,7 +7,7 @@
 #include <future>
 using namespace std;
 
-void write_file(string str){
+void write_file(const string &str){
   FILE *f;
   string a;
   f = fopen("1.txt","w");
@@ -22,7 +22,7 @@ int time_time(){
   return int(seconds);
 }
 
-vector <mpz_class> slice(vector<mpz_class>& v, unsigned int start = 0, unsigned int end = -1) {
+vector <mpz_class> slice(vector<mpz_class>& v, unsigned int start = 0, int end = -1) {
     int oldlen = v.size();
     int newlen;
     if (end == -1 or end >= oldlen){
@@ -69,8 +69,8 @@ mpz_class poizvedenie(vector <mpz_class> &chisla, int razmer_grup = 2){
   int size_group = chisla.size() / razmer_grup;
   if (size_group == 0){
     size_group = 1;
-  } else if(size_group > 4096){
-    size_group = 4096;
+  } else if(size_group > 8096){
+    size_group = 8096;
   }
   group(chisla, grupi, size_group);
   chisla.clear();
@@ -93,7 +93,7 @@ mpz_class poizvedenie(vector <mpz_class> &chisla, int razmer_grup = 2){
 }
 
 int main(){
-  int n = 10;
+  int n = 50000000;
   vector <mpz_class> list; // [1, 2, 3, 4, ... to n]
   for(int i = 1; i != n+1; i++){
     list.push_back(i);
