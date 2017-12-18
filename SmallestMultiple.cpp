@@ -171,9 +171,9 @@ int main (){
         // numbers from 1 to 10 without any remainder.
         // What is the smallest positive number that is evenly divisible
         // by all of the numbers from 1 to n?
-        int n = 100;
+        int n = 10;
         int start_time = time_time();
-        write_file(glav(100).get_str());
+        write_file(glav(n).get_str());
         //std::cout << glav(100) << '\n';
         cout << time_time() - start_time <<"\n";
         //cout << Proi;
