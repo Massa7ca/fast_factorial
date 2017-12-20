@@ -48,7 +48,7 @@ mpz_class FactTree(int n)
 
 int main(){
   int start_time = time_time();
-  write_file(FactTree(10).get_str());
+  write_file(FactTree(1000000).get_str());
   //std::cout << glav(100) << '\n';
   cout << time_time() - start_time <<"\n";
 

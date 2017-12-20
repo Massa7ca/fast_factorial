@@ -1,3 +1,5 @@
+//sudo ./configure --prefix=/usr --enable-cxx --enable-mpbsd --enable-mpfr && sudo make && sudo make install
+//sudo ./configure --enable-cxx --enable-mpbsd --enable-mpfr && sudo make && sudo make install
 #include <string>
 #include <iostream>
 #include <thread>
@@ -73,9 +75,9 @@ void poizvedenieL2(vector <mpz_class> &&chisla, vector <mpz_class>& otvetiL1, in
     slice(chisla, grup, start, _a_);
     peremnozh(grup, otveti, 0);
     if(otveti.size() == 1){
-      chisla.clear();
+      //chisla.clear();
       otvetiL1[thread_n] = otveti[0];
-      otveti.clear();
+      chisla.clear();
       //std::cout << otveti[0] << '\n';
       break;
     }else{
@@ -99,10 +101,10 @@ mpz_class poizvedenieL1(vector <mpz_class> &chisla, int thread_count = 2){
     start = 0;
     for(int i = 1; i != thread_count; i++){
       slice(chisla, grup, start, ss);
-      thread_list[i] = thread (poizvedenieL2, grup, ref(otveti), i);
+      thread_list[i] = thread (poizvedenieL2, grup, ref(otveti), i);;
       start = ss * i;
     }
-    //pokazhi_list(slice(chisla, b));
+    grup.clear();
     int _a_ = chisla.size() - start;
     grup.resize(_a_);
     slice(chisla, grup, start, _a_);
@@ -116,6 +118,7 @@ mpz_class poizvedenieL1(vector <mpz_class> &chisla, int thread_count = 2){
       return otveti[0];
     }else{
       //cout << "" << '\n';
+      grup.clear();
       chisla.clear();
       thread_list.clear();
       chisla = move(otveti);
@@ -130,8 +133,9 @@ int main(){
     list.push_back(i);
   }
   int start_time = time_time();
-  //poizvedenieL1(list, 4);
-  write_file(poizvedenieL1(list).get_str());
+  poizvedenieL1(list, 64);
+  //std::cout << poizvedenieL1(list, 2) << '\n';
+  //write_file(poizvedenieL1(list).get_str());
   cout << "Time " << time_time() - start_time <<"\n";
 
 }

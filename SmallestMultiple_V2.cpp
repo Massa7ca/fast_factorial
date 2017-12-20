@@ -191,6 +191,7 @@ mpz_class glav(unsigned long long dokuda, int thread_count = 2){
               }
       }
       //cout << prostie.size() << '\n';
+      pokazhi_list(prostie);
       cout << "zakinchili dobavlyati list" << '\n';
       cout << "Umnozhaem" << '\n';
       return poizvedenieL1(prostie, thread_count);
@@ -201,7 +202,7 @@ int main (){
         // numbers from 1 to 10 without any remainder.
         // What is the smallest positive number that is evenly divisible
         // by all of the numbers from 1 to n?
-        int n = 1000000000;
+        int n = 26;
         int start_time = time_time();
         glav(n, 4);
         //write_file(glav(n, 4).get_str());

@@ -107,9 +107,9 @@ void poizvedenieL2(vector <mpz_class> &&chisla, vector <mpz_class>& otvetiL1, in
     slice(chisla, grup, start, _a_);
     peremnozh(grup, otveti, 0);
     if(otveti.size() == 1){
-      chisla.clear();
+      //chisla.clear();
       otvetiL1[thread_n] = otveti[0];
-      otveti.clear();
+      chisla.clear();
       //std::cout << otveti[0] << '\n';
       break;
     }else{
@@ -133,10 +133,10 @@ mpz_class poizvedenieL1(vector <mpz_class> &chisla, int thread_count = 2){
     start = 0;
     for(int i = 1; i != thread_count; i++){
       slice(chisla, grup, start, ss);
-      thread_list[i] = thread (poizvedenieL2, grup, ref(otveti), i);
+      thread_list[i] = thread (poizvedenieL2, grup, ref(otveti), i);;
       start = ss * i;
     }
-    //pokazhi_list(slice(chisla, b));
+    grup.clear();
     int _a_ = chisla.size() - start;
     grup.resize(_a_);
     slice(chisla, grup, start, _a_);
@@ -147,9 +147,11 @@ mpz_class poizvedenieL1(vector <mpz_class> &chisla, int thread_count = 2){
     if(otveti.size() == 1){
       thread_list.clear();
       chisla.clear();
+      cout << "Zakonchili umnozhati" << '\n';
       return otveti[0];
     }else{
       //cout << "" << '\n';
+      grup.clear();
       chisla.clear();
       thread_list.clear();
       chisla = move(otveti);
@@ -201,9 +203,9 @@ int main (){
         // numbers from 1 to 10 without any remainder.
         // What is the smallest positive number that is evenly divisible
         // by all of the numbers from 1 to n?
-        int n = 100000000;
+        int n = 1000000000;
         int start_time = time_time();
         //glav(n, 4);
-        write_file(glav(n, 4).get_str());
+        write_file(glav(n, 64).get_str());
         cout << time_time() - start_time <<"\n";
 }
