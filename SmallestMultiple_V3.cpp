@@ -55,7 +55,6 @@ void naiti_prostie_menshe(vector <mpz_class> &prostie, unsigned long long int n)
        }
 }
 
-
 void pokazhi_list(vector <mpz_class> list){
        int i;
        cout << "[";
@@ -133,23 +132,32 @@ mpz_class poizvedenieL1(vector <mpz_class> &chisla, int thread_count = 2){
     start = 0;
     for(int i = 1; i != thread_count; i++){
       slice(chisla, grup, start, ss);
-      thread_list[i] = thread (poizvedenieL2, grup, ref(otveti), i);;
+      thread_list[i] = thread (poizvedenieL2, grup, ref(otveti), i);
+      for (int j = 0; j < ss; j++){
+        mpz_class _;
+        chisla[start+j] = _;
+      }
       start = ss * i;
+
     }
     grup.clear();
     int _a_ = chisla.size() - start;
     grup.resize(_a_);
     slice(chisla, grup, start, _a_);
     thread_list[0] = thread (poizvedenieL2, grup, ref(otveti), 0);
+    for (int j = 0; j < _a_; j++){
+      mpz_class _;
+      chisla[start+j] = _;
+    }
     for(int i = 0; i != thread_list.size(); i++){
       thread_list[i].join();
     }
     if(otveti.size() == 1){
       thread_list.clear();
       chisla.clear();
-      cout << "Zakonchili umnozhati" << '\n';
+      cout << "zakinchili umnozhati" << '\n';
       return otveti[0];
-    }else{
+    } else{
       //cout << "" << '\n';
       grup.clear();
       chisla.clear();
@@ -158,6 +166,7 @@ mpz_class poizvedenieL1(vector <mpz_class> &chisla, int thread_count = 2){
     }
   }
 }
+
 
 unsigned long long int kagda_zakonchiti(vector <mpz_class> &prostie, unsigned long long potolok){
       unsigned int c;

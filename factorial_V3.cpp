@@ -101,14 +101,23 @@ mpz_class poizvedenieL1(vector <mpz_class> &chisla, int thread_count = 2){
     start = 0;
     for(int i = 1; i != thread_count; i++){
       slice(chisla, grup, start, ss);
-      thread_list[i] = thread (poizvedenieL2, grup, ref(otveti), i);;
+      thread_list[i] = thread (poizvedenieL2, grup, ref(otveti), i);
+      for (int j = 0; j < ss; j++){
+        mpz_class _;
+        chisla[start+j] = _;
+      }
       start = ss * i;
+
     }
     grup.clear();
     int _a_ = chisla.size() - start;
     grup.resize(_a_);
     slice(chisla, grup, start, _a_);
     thread_list[0] = thread (poizvedenieL2, grup, ref(otveti), 0);
+    for (int j = 0; j < _a_; j++){
+      mpz_class _;
+      chisla[start+j] = _;
+    }
     for(int i = 0; i != thread_list.size(); i++){
       thread_list[i].join();
     }
@@ -116,7 +125,7 @@ mpz_class poizvedenieL1(vector <mpz_class> &chisla, int thread_count = 2){
       thread_list.clear();
       chisla.clear();
       return otveti[0];
-    }else{
+    } else{
       //cout << "" << '\n';
       grup.clear();
       chisla.clear();
@@ -133,9 +142,9 @@ int main(){
     list.push_back(i);
   }
   int start_time = time_time();
-  poizvedenieL1(list, 64);
+  //poizvedenieL1(list, 64);
   //std::cout << poizvedenieL1(list, 2) << '\n';
-  //write_file(poizvedenieL1(list).get_str());
+  write_file(poizvedenieL1(list, 64).get_str());
   cout << "Time " << time_time() - start_time <<"\n";
 
 }
