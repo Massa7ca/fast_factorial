@@ -155,7 +155,7 @@ int main(){
   for(int i = 1; i != n+1; i++){
     list.push_back(i);
   }
-  //int start_time = time_time();
+  int start_time = time_time();
   //poizvedenieL1(list, 64);
   //std::cout << poizvedenieL1(list, 64) << '\n';
   write_file(poizvedenieL1(list, 64).get_str());
