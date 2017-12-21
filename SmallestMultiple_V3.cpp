@@ -89,12 +89,28 @@ void poizvedenieL2(vector <mpz_class> &&chisla, vector <mpz_class>& otvetiL1, in
   // razmer_grup -- can not be less 2
   // multiplies a vector of numbers
   int newlen = 0, ss = 0, start = 0;
-  const int countONgrup = 2;
-  while (true) {
+  vector<mpz_class> otveti;
+  vector<mpz_class> grup;
+  const int kol_v_gruppe = 14;
+  int countONgrup = 2;
+  int index = 0;
+  while (true){
+    index++;
+    if(kol_v_gruppe >= index){
+      countONgrup = kol_v_gruppe / index;
+      if(countONgrup == 1){
+        countONgrup = 2;
+      }
+    }
     int size_group = chisla.size() / countONgrup;
-    vector<mpz_class> otveti(size_group);
+    if(size_group == 0){
+      size_group = 1;
+    }
+    otveti.resize(size_group);
     ss = chisla.size() / size_group;
-    vector<mpz_class> grup(ss);
+    if(grup.size() != ss){
+      grup.resize(ss);
+    }
     start = 0;
     for(int i = 1; i != size_group; i++){
       slice(chisla, grup, start, ss);
@@ -102,17 +118,17 @@ void poizvedenieL2(vector <mpz_class> &&chisla, vector <mpz_class>& otvetiL1, in
       start = ss * i;
     }
     int _a_ = chisla.size() - start;
-    grup.resize(_a_);
+    if(grup.size() != _a_){
+      grup.resize(_a_);
+    }
     slice(chisla, grup, start, _a_);
     peremnozh(grup, otveti, 0);
     if(otveti.size() == 1){
-      //chisla.clear();
-      otvetiL1[thread_n] = otveti[0];
       chisla.clear();
-      //std::cout << otveti[0] << '\n';
+      otvetiL1[thread_n] = otveti[0];
       break;
     }else{
-      chisla.clear();
+      //std::cout << '\n';
       chisla = move(otveti);
     }
   }
@@ -121,14 +137,19 @@ void poizvedenieL2(vector <mpz_class> &&chisla, vector <mpz_class>& otvetiL1, in
 mpz_class poizvedenieL1(vector <mpz_class> &chisla, int thread_count = 2){
   // multiplies a vector of numbers
   int newlen = 0, ss = 0, start = 0;
+  vector<mpz_class> otveti;
+  vector<thread> thread_list;
+  vector<mpz_class> grup;
   while (true) {
     if(thread_count >= chisla.size() / 2){
       thread_count = chisla.size() / 2;
     }
-    vector<mpz_class> otveti(thread_count);
-    vector<thread> thread_list(thread_count);
+    otveti.resize(thread_count);
+    thread_list.resize(thread_count);
     ss = chisla.size() / thread_count;
-    vector<mpz_class> grup(ss);
+    if(grup.size() != ss){
+      grup.resize(ss);
+    }
     start = 0;
     for(int i = 1; i != thread_count; i++){
       slice(chisla, grup, start, ss);
@@ -140,28 +161,20 @@ mpz_class poizvedenieL1(vector <mpz_class> &chisla, int thread_count = 2){
       start = ss * i;
 
     }
-    grup.clear();
     int _a_ = chisla.size() - start;
-    grup.resize(_a_);
+    if(grup.size() != _a_){
+      grup.resize(_a_);
+    }
     slice(chisla, grup, start, _a_);
     thread_list[0] = thread (poizvedenieL2, grup, ref(otveti), 0);
-    for (int j = 0; j < _a_; j++){
-      mpz_class _;
-      chisla[start+j] = _;
-    }
+    chisla.clear();
     for(int i = 0; i != thread_list.size(); i++){
       thread_list[i].join();
     }
     if(otveti.size() == 1){
-      thread_list.clear();
-      chisla.clear();
-      cout << "zakinchili umnozhati" << '\n';
       return otveti[0];
     } else{
       //cout << "" << '\n';
-      grup.clear();
-      chisla.clear();
-      thread_list.clear();
       chisla = move(otveti);
     }
   }
@@ -180,7 +193,7 @@ unsigned long long int kagda_zakonchiti(vector <mpz_class> &prostie, unsigned lo
 }
 
 mpz_class glav(unsigned long long dokuda, int thread_count = 2){
-      cout << "Shitaem primes" << '\n';
+      cout << "shitaem primes" << '\n';
       vector <mpz_class> prostie;
       naiti_prostie_menshe(prostie, dokuda);
       cout << "zakonchili shitati primes" << '\n';
@@ -212,7 +225,7 @@ int main (){
         // numbers from 1 to 10 without any remainder.
         // What is the smallest positive number that is evenly divisible
         // by all of the numbers from 1 to n?
-        int n = 1000000000;
+        unsigned long int n = 20;
         int start_time = time_time();
         //glav(n, 4);
         write_file(glav(n, 64).get_str());
