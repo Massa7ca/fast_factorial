@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <thread>
 #include <future>
+#include <sstream>
 
 using namespace std;
 
@@ -29,15 +30,29 @@ int time_time(){
   return int(seconds);
 }
 
-void naiti_prostie_menshe(vector <mpz_class> &prostie, unsigned long long int n){
+unsigned long long mpz2ull(mpz_class n){
+  stringstream str;
+  str << n;
+  unsigned long long ull;
+  str >> ull;
+  return ull;
+}
+
+mpz_class ull2mpz(unsigned long long ull){
+  stringstream str;
+  str << ull;
+  return mpz_class (str.str());
+}
+
+void naiti_prostie_menshe(vector <mpz_class> &prostie, unsigned long long n){
        vector <unsigned char> vsen(n+1);
-       unsigned long int i = 0;
+       unsigned long long i = 0;
        // 1 = False
        // 0 = True
-       unsigned int koren = sqrt(float(n));
-       unsigned long int p = 2;
+       unsigned long long koren = sqrt(float(n));
+       unsigned long long p = 2;
        while(p <= koren){
-               prostie.push_back(p);
+               prostie.push_back(ull2mpz(p));
                for (i=p; i < (n+1); i += p){
                        vsen[i] = 1;
                }
@@ -50,7 +65,7 @@ void naiti_prostie_menshe(vector <mpz_class> &prostie, unsigned long long int n)
        }
        for (i = p; i < (n+1); i++){
                if (vsen[i] == 0){
-                       prostie.push_back(i);
+                       prostie.push_back(ull2mpz(i));
                }
        }
 }
@@ -182,7 +197,7 @@ mpz_class poizvedenieL1(vector <mpz_class> &chisla, int thread_count = 2){
 
 
 unsigned long long int kagda_zakonchiti(vector <mpz_class> &prostie, unsigned long long potolok){
-      unsigned int c;
+      unsigned long long c;
       for (int i = 0; i != prostie.size(); i++){
               c = prostie[i].get_ui();
               if((c * c) > potolok){
@@ -198,17 +213,17 @@ mpz_class glav(unsigned long long dokuda, int thread_count = 2){
       naiti_prostie_menshe(prostie, dokuda);
       cout << "zakonchili shitati primes" << '\n';
       cout << "dobavlyaem list" << '\n';
-      unsigned long long int ae = kagda_zakonchiti(prostie, dokuda);
-      for (int i = 0; i != prostie.size(); i++){
-              unsigned int j = prostie[i].get_ui();
+      unsigned long long ae = kagda_zakonchiti(prostie, dokuda);
+      for (unsigned int i = 0; i != prostie.size(); i++){
+              unsigned long long j = mpz2ull(prostie[i]);
               if(ae == j){
                 break;
               }
-              unsigned int k = 1;
+              unsigned long long k = 1;
               while (true) {
                 k *= j;
                 if(k * j <= dokuda){
-                  prostie.push_back(j);
+                  prostie.push_back(ull2mpz(j));
                 } else{
                   break;
                 }
@@ -225,9 +240,9 @@ int main (){
         // numbers from 1 to 10 without any remainder.
         // What is the smallest positive number that is evenly divisible
         // by all of the numbers from 1 to n?
-        unsigned long int n = 20;
+        unsigned long int n = 1000000000;
         int start_time = time_time();
-        //glav(n, 4);
-        write_file(glav(n, 64).get_str());
+        glav(n, 64);
+        //write_file(glav(n, 64).get_str());
         cout << time_time() - start_time <<"\n";
 }
