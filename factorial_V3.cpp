@@ -1,5 +1,5 @@
-//sudo ./configure --prefix=/usr --enable-cxx --enable-mpbsd --enable-mpfr && sudo make && sudo make install
 //sudo ./configure --enable-cxx --enable-mpbsd --enable-mpfr && sudo make && sudo make install
+//sudo ./configure --enable-cxx
 #include <string>
 #include <iostream>
 #include <thread>
@@ -150,15 +150,15 @@ mpz_class poizvedenieL1(vector <mpz_class> &chisla, int thread_count = 2){
 }
 
 int main(){
-  int n = 100000000;
+  int n = 50000000;
   vector <mpz_class> list; // [1, 2, 3, 4, ... to n]
   for(int i = 1; i != n+1; i++){
     list.push_back(i);
   }
   int start_time = time_time();
-  //poizvedenieL1(list, 64);
+  poizvedenieL1(list, 64);
   //std::cout << poizvedenieL1(list, 64) << '\n';
-  write_file(poizvedenieL1(list, 64).get_str());
+  //write_file(poizvedenieL1(list, 64).get_str());
   cout << "Time " << time_time() - start_time <<"\n";
 
 }
